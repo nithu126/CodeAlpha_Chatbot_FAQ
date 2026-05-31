@@ -1,154 +1,60 @@
 import streamlit as st
-import spacy
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
-# Load SpaCy model
-nlp = spacy.load("en_core_web_sm")
-
-# Page settings
+# Page Settings
 st.set_page_config(
     page_title="AI FAQ Assistant",
-    page_icon="🤖",
-    layout="centered"
+    page_icon="🤖"
 )
 
-# Custom CSS
-st.markdown("""
-<style>
-body {
-    background-color: #0f172a;
-}
+st.title("🤖 AI FAQ Assistant")
+st.write("Ask AI-related questions and get instant answers")
 
-.main {
-    background-color: #0f172a;
-}
+# Load FAQ Data
+faq = {}
 
-.chat-container {
-    padding: 20px;
-    border-radius: 15px;
-    background-color: #111827;
-    margin-top: 20px;
-}
+try:
+    with open("faq.txt", "r", encoding="utf-8") as file:
 
-.user-msg {
-    background-color: #2563eb;
-    color: white;
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
+        for line in file:
 
-.bot-msg {
-    background-color: #1f2937;
-    color: white;
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
+            line = line.strip()
 
-.title {
-    text-align: center;
-    color: white;
-    font-size: 42px;
-    font-weight: bold;
-}
+            if "|" not in line:
+                continue
 
-.subtitle {
-    text-align: center;
-    color: #9ca3af;
-    margin-bottom: 30px;
-}
-</style>
-""", unsafe_allow_html=True)
+            question, answer = line.split("|", 1)
 
-# Title
-st.markdown('<p class="title">🤖 AI FAQ Assistant</p>', unsafe_allow_html=True)
-st.markdown(
-    '<p class="subtitle">Ask AI-related questions and get instant answers</p>',
-    unsafe_allow_html=True
-)
+            faq[question.strip().lower()] = answer.strip()
 
-# Sidebar
-with st.sidebar:
-    st.header("📌 About")
-    st.write("""
-    This chatbot uses:
-    - SpaCy NLP
-    - TF-IDF Vectorization
-    - Cosine Similarity
-    
-    Developed for CodeAlpha AI Internship.
-    """)
+except Exception as e:
+    st.error(f"Error reading faq.txt: {e}")
+    st.stop()
 
-# Preprocessing function
-def preprocess(text):
-    doc = nlp(text.lower())
+# Debug Information
+st.write("Questions loaded:", len(faq))
 
-    tokens = [
-        token.lemma_
-        for token in doc
-        if not token.is_stop and not token.is_punct
-    ]
+# User Input
+user_question = st.text_input("Enter your question:")
 
-    return " ".join(tokens)
+if st.button("Ask"):
 
-# Load FAQ data
-questions = []
-answers = []
+    user_question = user_question.strip().lower()
 
-with open("faq.txt", "r", encoding="utf-8") as file:
-    lines = file.readlines()
+    answer_found = None
 
-for line in lines:
-    if "|" in line:
-        q, a = line.strip().split("|")
-        questions.append(preprocess(q))
-        answers.append(a)
+    # Exact Match
+    if user_question in faq:
+        answer_found = faq[user_question]
 
-# Vectorization
-vectorizer = TfidfVectorizer()
-question_vectors = vectorizer.fit_transform(questions)
-
-# Chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Input
-user_input = st.chat_input("Type your question here...")
-
-if user_input:
-
-    processed_input = preprocess(user_input)
-
-    user_vector = vectorizer.transform([processed_input])
-
-    similarity = cosine_similarity(user_vector, question_vectors)
-
-    best_match = similarity.argmax()
-
-    confidence = similarity[0][best_match]
-
-    if confidence > 0.2:
-        response = answers[best_match]
+    # Partial Match
     else:
-        response = "Sorry, I couldn't understand your question."
+        for question, answer in faq.items():
 
-    # Save messages
-    st.session_state.messages.append(("user", user_input))
-    st.session_state.messages.append(("bot", response))
+            if user_question in question:
+                answer_found = answer
+                break
 
-# Display chat
-for sender, message in st.session_state.messages:
-
-    if sender == "user":
-        st.markdown(
-            f'<div class="user-msg">🧑 {message}</div>',
-            unsafe_allow_html=True
-        )
-
+    if answer_found:
+        st.success(answer_found)
     else:
-        st.markdown(
-            f'<div class="bot-msg">🤖 {message}</div>',
-            unsafe_allow_html=True
-        )
+        st.warning("Sorry, answer not found.")

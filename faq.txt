@@ -1,0 +1,61 @@
+What is Artificial Intelligence?|Artificial Intelligence is the simulation of human intelligence in machines.
+
+What is Machine Learning?|Machine Learning is a subset of AI that allows systems to learn from data.
+
+What is Deep Learning?|Deep Learning is a branch of machine learning using neural networks.
+
+What is NLP?|NLP stands for Natural Language Processing.
+
+What is Computer Vision?|Computer Vision enables computers to understand images and videos.
+
+What is Python?|Python is a popular programming language used in AI and web development.
+
+Who created Python?|Python was created by Guido van Rossum.
+
+What is Streamlit?|Streamlit is a Python framework used to build interactive web applications.
+
+What is SpaCy?|SpaCy is an NLP library used for advanced text processing.
+
+What is scikit-learn?|Scikit-learn is a machine learning library for Python.
+
+What is data science?|Data science involves analyzing and interpreting complex data.
+
+What is a neural network?|A neural network is a system inspired by the human brain.
+
+What is supervised learning?|Supervised learning trains models using labeled data.
+
+What is unsupervised learning?|Unsupervised learning identifies patterns in unlabeled data.
+
+What is reinforcement learning?|Reinforcement learning trains models using rewards and penalties.
+
+What is chatbot?|A chatbot is a software application that simulates human conversation.
+
+What is TF-IDF?|TF-IDF measures the importance of words in text processing.
+
+What is cosine similarity?|Cosine similarity measures similarity between text vectors.
+
+What is tokenization?|Tokenization splits text into smaller units called tokens.
+
+What is lemmatization?|Lemmatization converts words to their root form.
+
+What are stopwords?|Stopwords are common words removed during NLP preprocessing.
+
+What is an API?|An API allows software systems to communicate with each other.
+
+What is GitHub?|GitHub is a platform used for version control and code hosting.
+
+What is Git?|Git is a distributed version control system.
+
+What is CodeAlpha?|CodeAlpha is a software company providing internship opportunities.
+
+What is cloud computing?|Cloud computing delivers computing services over the internet.
+
+What is generative AI?|Generative AI creates text, images, and other content automatically.
+
+What is OpenAI?|OpenAI is an AI research company.
+
+What is ChatGPT?|ChatGPT is an AI chatbot developed by OpenAI.
+
+What is prompt engineering?|Prompt engineering is designing effective inputs for AI systems.
+
+What is AI ethics?|AI ethics involves responsible and fair use of AI technologies.
